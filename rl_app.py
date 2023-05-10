@@ -47,8 +47,7 @@ if st.button("Submit") and player_name and user_input:
     # Display the output
     st.write(id_data)
     speed = make_plots(id_data, player_name)
-    st.write(speed)
-
+    st.pyplot(speed)
 
 if not user_input and player_name:
     st.error("If you want to see a demo - select from a sample ID!")
@@ -70,8 +69,18 @@ if show_samples == True:
 
     st.write('''boay00 replay 2:
 
-    d0971503-bba7-41a4-bfc8-129a3f479ce3
+    0d3d3bc6-f09b-4d77-9047-8afa863334ce
+    ''')
+    st.write('')
+
+    st.write('''boay00 replay 3:
+
+    36778dbd-048b-46e3-aef1-94a3895d2543
     ''')
 
+    st.markdown('---')
 
+    st.write('''bdpie1 replay 1:
 
+    0d3d3bc6-f09b-4d77-9047-8afa863334ce
+    ''')

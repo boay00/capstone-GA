@@ -108,7 +108,8 @@ def make_spider(df, row, title, color):
     # Draw ylabels
     ax.set_rlabel_position(0)
     plt.yticks([1,2,3,4,5,6,7,8,9], ['1',"2",'3',"4",'5',"6",'7', "8",'9'], color="grey", size=7)
-    plt.ylim(0,10)
+    lowest = df.select_dtypes(include = 'number').values.min()
+    plt.ylim(max(0, (int(lowest) - 1)),10)
 
     # Ind1
     values=df.loc[row].drop('group').values.flatten().tolist()
@@ -121,7 +122,12 @@ def make_spider(df, row, title, color):
 
     
 def make_plots(df, player_name):
-    df = df.drop(columns = ['mvp', 'player_name'])
+    means = df.mean(axis= 0)
+    df.index = range(len(df.index))
+    df = df.drop(columns = ['player_name'])
+    df = df.append(means, ignore_index = True)
+    df = df.loc[[len(df) - 1], :]
+    df = df.rename(index={len(df): player_name})
 
     try:
         df.drop(columns = 'goals_against_while_last_defender')
@@ -305,29 +311,28 @@ def make_plots(df, player_name):
 
 
     game_involvement_df['game_involvement'] = (game_involvement_df.game_involvement / 32.386109026882906) * 9.5
-    print(game_involvement_df)
     ## radar plot code taken from github example and adapted for personal needs
 
     from math import pi 
     # Set data
     df_2 = pd.DataFrame({
     'group' : [player_name],
-    """speed""": [speed_df[speed_df.index == player_name].speed
-    ],
+    """speed""": min(10,speed_df.loc[player_name, 'speed']
+    ),
     """  boost 
-           efficiency""": [    boost_efficiency_df[boost_efficiency_df.index == player_name].boost_efficiency
+           efficiency""":     min(10,boost_efficiency_df.loc[player_name, 'boost_efficiency']
 
-    ],
-    """aggression""": [    aggression_df[aggression_df.index == player_name].aggression
+    ),
+    """aggression""": min(10,aggression_df.loc[player_name, 'aggression']
 
-    ],
-    """team cohesion     """: [    team_cohesion_df[team_cohesion_df.index == player_name].team_cohesion
-
-    ],
+    ),
+    """team cohesion     """: min(10,team_cohesion_df.loc[player_name, 'team_cohesion']
+    )
+    ,
     """   game    
-    involvement          """: [    game_involvement_df[game_involvement_df.index == player_name].game_involvement
+    involvement             """: min(10,game_involvement_df.loc[player_name, 'game_involvement']
 
-    ]
+    )
     })
 
 
@@ -341,4 +346,4 @@ def make_plots(df, player_name):
     # Loop to plot
     for row in range(0, len(df_2.index)):
         make_spider(df = df_2, row=row, title=df_2['group'][row], color=my_palette(row))
-    return speed
+    return plt
