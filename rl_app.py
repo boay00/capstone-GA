@@ -135,6 +135,18 @@ rank_images['Supersonic Legend'] = Image.open('ranks/ssl.png')
 st.title('Prediction HUB')
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
+st.markdown('''---
+#### If you have played Rocket League, navigate to [this link](https://ballchasing.com), and enter your gamertag in the right search bar
+- Please filter for any of these 3v3 game modes:
+    - 'Ranked Solo Standard'
+    - 'Ranked Standard'
+    - 'Unranked Standard'
+- (Techincally any 3v3 game mode will work, so tournaments and rumble, dropshot, snowday would still work! My models have never seen data from extra modes - so try for fun! :grin:)
+- Only players on PC can upload replays to ballchasing, although console players can still find games other people have uploaded with them also playing in!
+- NB. Players at ranks of diamond or higher are fare more likely to find replays - since lower ranked players rarely upload replays to ballchasing.
+
+
+''')
 
 player_name = st.text_input('Enter your gamertag here', value = '', key = 'input')
 user_input = st.text_input('Enter your replay ID here', value = '', key = 'input2')
@@ -310,10 +322,46 @@ def analyse_game(user_input, player_name):
         with col2_1:
             st.image(rank_images[rank_str])
 
+        st.markdown('---')
+
+         
+
 
 analyse_game(user_input, player_name)
 
 if show_samples == True and not submit:
+    st.markdown('---')
+    st.markdown('## Pro Replays')
+    st.markdown('---')
+
+    st.write('''**M0nkey M00n** replay 1:
+
+    0c4c75e7-55cb-4a6a-b531-f32959b00acb           
+    ''')
+    st.markdown('---')
+
+    st.write('''**Oski** replay 1:
+
+    fcce2e38-2ecc-4bf3-838a-41029c0b3842        
+    ''')
+    st.markdown('---')
+
+    st.write('''**Vatira** replay 1:
+
+    29349d8a-d32f-4d6a-9624-46514f141ca2            
+    ''')
+    st.markdown('---')
+
+    st.write('''**Marc_by_8** replay 1:
+
+    fcce2e38-2ecc-4bf3-838a-41029c0b3842         
+    ''') 
+    st.markdown('---')
+
+    st.markdown('## Mid-High Rank Replays')
+    st.markdown('---')
+
+
     st.write('''**boay00** replay 1:
 
     305e79bd-9b27-40c6-b0b6-66a73063f3dd
@@ -337,12 +385,6 @@ if show_samples == True and not submit:
 
     st.markdown('---')
 
-    st.write('''**bdpie1** replay 1:
-
-    0d3d3bc6-f09b-4d77-9047-8afa863334ce
-    ''')
-    st.markdown('---')
-
     st.write('''**Cho Shmo** replay 1:
 
     b7e5be3f-50ff-4ff5-ac29-0a020d0dc327        
@@ -355,24 +397,13 @@ if show_samples == True and not submit:
     3e502845-e51d-43bc-895a-5cfd61e52460        
     ''')
     st.markdown('---')
-
-    st.write('''**Oski** replay 1:
-
-    ce2282df-e65e-4963-9f2f-f98c1230ee50          
-    ''')
+    st.markdown('## Low-Mid Rank Replays')
     st.markdown('---')
 
-    st.write('''**Vatira** replay 1:
+    st.write('''**bdpie1** replay 1:
 
-    29349d8a-d32f-4d6a-9624-46514f141ca2            
+    0d3d3bc6-f09b-4d77-9047-8afa863334ce
     ''')
-    st.markdown('---')
-
-    st.write('''**M0nkey M00n** replay 1:
-
-    0c4c75e7-55cb-4a6a-b531-f32959b00acb           
-    ''')
-    
     st.markdown('---')
 
     st.write('''**RiddlingTuna546** replay 1:
@@ -387,9 +418,3 @@ if show_samples == True and not submit:
     65d388c7-ffc4-4f96-85d0-f96250a6638e         
     ''') 
     
-    st.markdown('---')
-
-    st.write('''**Marc_by_8** replay 1:
-
-    fcce2e38-2ecc-4bf3-838a-41029c0b3842         
-    ''') 
