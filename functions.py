@@ -111,7 +111,7 @@ def make_spider(df, row, title, color):
     angles += angles[:1]
 
     # Initialise the spider plot
-    ax = plt.subplot(1,1,row+1, polar=True)
+    ax = plt.subplot(1,len(df),row+1, polar=True)
 
     # If you want the first axis to be on top:
     ax.set_theta_offset(pi / 2)
@@ -124,10 +124,10 @@ def make_spider(df, row, title, color):
     ax.set_rlabel_position(0)
     plt.yticks([1,2,3,4,5,6,7,8,9], ['1',"2",'3',"4",'5',"6",'7', "8",'9'], color="grey", size=7)
     lowest = df.select_dtypes(include = 'number').values.min()
-    plt.ylim(max(0, (int(lowest) - 1)),10)
+    plt.ylim(min(5,max(0, (int(lowest) - 1))),10)
 
     # Ind1
-    values=df.loc[row].drop('group').values.flatten().tolist()
+    values=df.loc[row].drop('player').values.flatten().tolist()
     values += values[:1]
     ax.plot(angles, values, color=color, linewidth=2, linestyle='solid')
     ax.fill(angles, values, color=color, alpha=0.4)
@@ -264,7 +264,6 @@ def make_plots(df_original, player_name):
 
 
     speed_df['speed'] = (speed_df.count_powerslide / 10
-                        ) + (speed_df.count_powerslide / 10
                         ) + (speed_df.avg_speed_percentage / 10
                         ) + (speed_df.percent_high_air
                         ) + ((speed_df.percent_low_air / speed_df.percent_ground) * 9
@@ -274,8 +273,8 @@ def make_plots(df_original, player_name):
     speed_df['speed'] = speed_df['speed'] / 53.50791271036635 * 9.5
 
     boost_efficiency_df['boost_efficiency'] = boost_efficiency_df.avg_amount * (((boost_efficiency_df.amount_collected_small / boost_efficiency_df.amount_collected
-                                              ) * 25) + ((boost_efficiency_df.bcpm / boost_efficiency_df.avg_speed_percentage
-                                              )) + (1 / (boost_efficiency_df.amount_overfill / boost_efficiency_df.amount_collected)
+                                              ) * 25) + ((1/boost_efficiency_df.avg_speed_percentage) * (boost_efficiency_df.bcpm) 
+                                              ) * 1.2 + (1 / (boost_efficiency_df.amount_overfill / boost_efficiency_df.amount_collected)
                                               ) + (0.8 / (boost_efficiency_df.amount_used_while_supersonic / boost_efficiency_df.amount_collected)
                                               ) + (75 / boost_efficiency_df.percent_zero_boost
                                               ) + (1 - (abs(boost_efficiency_df.avg_powerslide_duration - 0.1
@@ -333,21 +332,21 @@ def make_plots(df_original, player_name):
     from math import pi 
     # Set data
     df_2 = pd.DataFrame({
-    'group' : [player_name],
-    """speed""": min(10,speed_df.loc[player_name, 'speed']
+    'player' : [player_name],
+    """Speed""": min(10,speed_df.loc[player_name, 'speed']
     ),
-    """  boost 
-           efficiency""":     min(10,boost_efficiency_df.loc[player_name, 'boost_efficiency']
+    """  Boost 
+            Efficiency""":     min(10,min(speed_df.loc[player_name, 'speed'] * 2, boost_efficiency_df.loc[player_name, 'boost_efficiency'])
+                                  
+    ),
+    """  Aggression""": min(10,aggression_df.loc[player_name, 'aggression']
 
     ),
-    """aggression""": min(10,aggression_df.loc[player_name, 'aggression']
-
-    ),
-    """team cohesion     """: min(10,team_cohesion_df.loc[player_name, 'team_cohesion']
-    )
+    """Team Cohesion       """: min(10, min(speed_df.loc[player_name, 'speed'] * 2, team_cohesion_df.loc[player_name, 'team_cohesion']
+    ))
     ,
-    """   game    
-    involvement             """: min(10,game_involvement_df.loc[player_name, 'game_involvement']
+    """   Game    
+    Involvement               """: min(10,game_involvement_df.loc[player_name, 'game_involvement']
 
     )
     })
@@ -362,8 +361,8 @@ def make_plots(df_original, player_name):
 
     # Loop to plot
     for row in range(0, len(df_2.index)):
-        make_spider(df = df_2, row=row, title=df_2['group'][row], color=my_palette(row))
-    return plt
+        make_spider(df = df_2, row=row, title=df_2['player'][row], color=my_palette(row))
+    return plt, df_2
 
 with open('3-modeling-playstyle/code/nn_model_ss_poly.pkl', 'rb') as picklefile:
     nn_model, ss, poly = pickle.load(picklefile)
@@ -429,7 +428,8 @@ def predict_playstyle(df_original):
         
     df = poly.transform(ss.transform(df))
     df_preds = pd.DataFrame(nn_model.predict(df), columns = ['Monkeymoon', 'Oski','Vatira'])
-    return df_preds
+    df_player = pd.DataFrame(nn_model.predict(df))
+    return df_preds, df_player
 
 def r_squared(y_true, y_pred):
     SS_res =  K.sum(K.square(y_true - y_pred))
@@ -442,7 +442,7 @@ with open('4-modeling-rank-predictor/code/nn_model_rank_0.pkl', 'rb') as picklef
 with open('4-modeling-rank-predictor/code/dict_ranks.pkl', 'rb') as picklefile:
     dict_ranks = pickle.load(picklefile)
     
-    
+
 
 
 
