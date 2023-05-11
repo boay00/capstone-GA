@@ -10,6 +10,21 @@ import seaborn as sns
 import pickle
 from math import pi 
 
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, mean_squared_error, balanced_accuracy_score
+from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
+from imblearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler, PolynomialFeatures
+from sklearn.ensemble import AdaBoostClassifier, RandomForestClassifier, StackingClassifier, ExtraTreesClassifier
+from sklearn.neighbors import KNeighborsRegressor, KNeighborsClassifier
+from sklearn.linear_model import LogisticRegression
+from tensorflow.keras.models import Sequential, load_model
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.utils import to_categorical
+from tensorflow.keras.callbacks import EarlyStopping
+from tensorflow.keras import metrics
+import tensorflow.keras.backend as K
+
+    
 
 def get_data(replay_id, player_name):
     res = requests.get(f'https://ballchasing.com/api/replays/{replay_id}',
@@ -121,7 +136,9 @@ def make_spider(df, row, title, color):
     plt.title(title, size=11, color=color, y=1.1)
 
     
-def make_plots(df, player_name):
+def make_plots(df_original, player_name):
+    df = df_original.copy()
+
     means = df.mean(axis= 0)
     df.index = range(len(df.index))
     df = df.drop(columns = ['player_name'])
@@ -347,3 +364,157 @@ def make_plots(df, player_name):
     for row in range(0, len(df_2.index)):
         make_spider(df = df_2, row=row, title=df_2['group'][row], color=my_palette(row))
     return plt
+
+with open('3-modeling-playstyle/code/nn_model_ss_poly.pkl', 'rb') as picklefile:
+    nn_model, ss, poly = pickle.load(picklefile)
+    
+def predict_playstyle(df_original):
+    df = df_original.copy()
+    try:
+        df.drop(columns = 'goals_against_while_last_defender', inplace = True)
+    except KeyError:
+        pass
+    
+    to_drop = [
+        'shots_against',
+        'goals_against',
+        'shooting_percentage',
+        'bpm',
+        'amount_stolen_big',
+        'amount_stolen_small',
+        'count_collected_big',
+        'count_collected_small',
+        'count_stolen_small',
+        'count_stolen_big',
+        'amount_overfill_stolen',
+        'time_zero_boost',
+        'time_full_boost',
+        'time_boost_0_25',
+        'time_boost_25_50',
+        'time_boost_50_75',
+        'time_boost_75_100',
+        'avg_speed',
+        'total_distance',
+        'time_supersonic_speed',
+        'time_boost_speed',
+        'time_slow_speed',
+        'time_ground',
+        'time_low_air',
+        'time_high_air',
+        'time_powerslide',
+        'time_defensive_third',
+        'time_neutral_third',
+        'time_offensive_third',
+        'time_defensive_half',
+        'time_offensive_half',
+        'time_behind_ball',
+        'time_infront_ball',
+        'time_most_back',
+        'time_most_forward',
+        'time_closest_to_ball',
+        'time_farthest_from_ball',
+        'mvp',
+        'taken',
+        'goals',
+        'assists',
+        'avg_distance_to_ball_possession',
+        'shots',
+        'amount_stolen'
+    ]
+    
+    df.drop(columns = to_drop, inplace = True)
+    df.drop(columns = ['player_name'], inplace = True)
+    for col in df.columns[:-1]:
+        df[col] = df[col].astype(float)
+        
+    df = poly.transform(ss.transform(df))
+    df_preds = pd.DataFrame(nn_model.predict(df), columns = ['Monkeymoon', 'Oski','Vatira'])
+    return df_preds
+
+def r_squared(y_true, y_pred):
+    SS_res =  K.sum(K.square(y_true - y_pred))
+    SS_tot = K.sum(K.square(y_true - K.mean(y_true)))
+    return (1 - SS_res/(SS_tot + K.epsilon()))
+
+with open('4-modeling-rank-predictor/code/nn_model_rank_0.pkl', 'rb') as picklefile:
+    rank_model, ss_rank = pickle.load(picklefile)
+    
+with open('4-modeling-rank-predictor/code/dict_ranks.pkl', 'rb') as picklefile:
+    dict_ranks = pickle.load(picklefile)
+    
+    
+
+
+
+def predict_rank(df_original):
+    df = df_original.copy()
+    
+    # df.dropna(inplace =True)
+    to_drop = [
+        'shots_against',
+        'goals_against',
+        'shooting_percentage',
+        'bpm',
+        'amount_stolen_big',
+        'amount_stolen_small',
+        'count_collected_big',
+        'count_collected_small',
+        'count_stolen_small',
+        'count_stolen_big',
+        'amount_overfill_stolen',
+        'time_zero_boost',
+        'time_full_boost',
+        'time_boost_0_25',
+        'time_boost_25_50',
+        'time_boost_50_75',
+        'time_boost_75_100',
+        'avg_speed',
+        'total_distance',
+        'time_supersonic_speed',
+        'time_boost_speed',
+        'time_slow_speed',
+        'time_ground',
+        'time_low_air',
+        'time_high_air',
+        'time_powerslide',
+        'time_defensive_third',
+        'time_neutral_third',
+        'time_offensive_third',
+        'time_defensive_half',
+        'time_offensive_half',
+        'time_behind_ball',
+        'time_infront_ball',
+        'time_most_back',
+        'time_most_forward',
+        'time_closest_to_ball',
+        'time_farthest_from_ball',
+        'mvp',
+        'taken',
+        'goals',
+        'assists',
+        # 'avg_distance_to_ball_possession',
+        'shots',
+        # 'amount_stolen',
+        'saves',
+        'score'
+    ]
+    
+    df.drop(columns = to_drop, inplace = True)
+    try:
+        df.drop(columns = 'Unnamed: 0', inplace = True)
+    except KeyError:
+        pass
+    
+    try:
+        df.drop(columns = 'goals_against_while_last_defender', inplace = True)
+    except KeyError:
+        pass
+    
+    try:
+        df.drop(columns = 'player_name', inplace = True)
+    except KeyError:
+        pass
+    rank_preds = rank_model.predict(ss_rank.transform(df))
+    rank_preds_text = [dict_ranks[int(pred)] for pred in rank_preds]
+    return rank_preds_text
+    

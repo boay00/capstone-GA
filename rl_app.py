@@ -29,7 +29,8 @@ from tensorflow.keras import metrics
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.callbacks import EarlyStopping
 
-from functions import get_data, make_spider, make_plots
+from functions import (get_data, make_spider, make_plots, predict_playstyle,
+                       r_squared, predict_rank)
 
 st.title('Capstone GA')
 st.set_option('deprecation.showPyplotGlobalUse', False)
@@ -38,23 +39,12 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 player_name = st.text_input('Enter your gamertag here', value = '', key = 'input')
 user_input = st.text_input('Enter your replay ID here', value = '', key = 'input2')
 
-if st.button("Submit") and player_name and user_input:
-    # Do something with the inputs
-    id_data = get_data(user_input, player_name)
-
-    show_samples = False
-
-    # Display the output
-    st.write(id_data)
-    speed = make_plots(id_data, player_name)
-    st.pyplot(speed)
+submit = st.button("Submit")
 
 if not user_input and player_name:
     st.error("If you want to see a demo - select from a sample ID!")
     show_samples = True
-
 show_samples = st.checkbox("Show Sample Replays IDs")
-
 
 if show_samples == True:
     st.write('''boay00 replay 1:
@@ -84,3 +74,46 @@ if show_samples == True:
 
     0d3d3bc6-f09b-4d77-9047-8afa863334ce
     ''')
+    st.markdown('---')
+
+    st.write('''Cho Shmo replay 1:
+
+    b7e5be3f-50ff-4ff5-ac29-0a020d0dc327        
+    ''')
+    
+    st.markdown('---')
+
+    st.write('''eden replay 1:
+
+    3e502845-e51d-43bc-895a-5cfd61e52460        
+    ''')
+
+
+if submit and player_name and user_input:
+    show_samples = False
+    # Do something with the inputs
+    id_data = get_data(user_input, player_name)
+
+ 
+
+    # Display the output
+    st.write(id_data)
+
+    st.markdown('---')
+
+    st.markdown('### Playstyle prediction')
+
+    radar_plots = make_plots(id_data, player_name)
+    st.pyplot(radar_plots)
+    ps_preds = predict_playstyle(id_data)
+    st.write(ps_preds)
+    st.markdown('---')
+    st.write('Rank Predictions')
+    rank_preds = predict_rank(id_data)
+    st.write(rank_preds)
+
+
+
+
+
+
