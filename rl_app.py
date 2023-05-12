@@ -1,6 +1,5 @@
 import streamlit as st
 from PIL import Image
-import torch
 
 import requests
 import json
@@ -14,11 +13,11 @@ import scipy as scp
 from math import pi
 
 
-# from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
-# from imblearn.pipeline import Pipeline
+from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
+from imblearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, PolynomialFeatures
-# from sklearn.ensemble import ExtraTreesClassifier, GradientBoostingRegressor
-# from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.ensemble import ExtraTreesClassifier, GradientBoostingRegressor
+from sklearn.metrics import mean_squared_error, r2_score
 
 import os
 import pickle
@@ -34,14 +33,14 @@ from functions import (get_data, make_spider, make_plots, predict_playstyle,
                        r_squared, predict_rank)
 
 
-# with open('nn_model_ss_poly_2.pkl', 'rb') as picklefile:
-#     nn_model, ss_ps, poly = pickle.load(picklefile)
+with open('et_model_4.pkl', 'rb') as picklefile:
+    et_model = pickle.load(picklefile)
 
-# with open('nn_model_rank_0_2.pkl', 'rb') as picklefile:
-#     rank_model, ss_rank = pickle.load(picklefile)
+with open('gbrt_3.pkl', 'rb') as picklefile:
+    rank_model = pickle.load(picklefile)
 
-# with open('dict_ranks.pkl', 'rb') as picklefile:
-#     dict_ranks = pickle.load(picklefile)
+with open('dict_ranks.pkl', 'rb') as picklefile:
+    dict_ranks = pickle.load(picklefile)
 
 rank_images = {}
 rank_images['Bronze 1 Division 1'] = Image.open('ranks/b1.png')
@@ -193,7 +192,7 @@ def analyse_game(user_input, player_name):
                      https://ballchasing.com/replay/{user_input}''')
         try:
 
-            ps_preds, player_pred = predict_playstyle(id_data, model = nn_model, ss = ss_ps, poly = poly)
+            ps_preds, player_pred = predict_playstyle(id_data, model = et_model)
         except KeyError:
             failed = True
         
@@ -203,7 +202,7 @@ def analyse_game(user_input, player_name):
 
         try:
 
-            rank_preds = predict_rank(id_data, model = rank_model, ss = ss_rank, dict_ranks = dict_ranks)
+            rank_preds = predict_rank(id_data, model = rank_model, dict_ranks = dict_ranks)
         except KeyError:
             failed = True
         
@@ -291,15 +290,18 @@ def analyse_game(user_input, player_name):
             st.markdown(f'''<p style="color:#FFD700">
                           -------------- Vatira : {'{:.2f}'.format(ps_preds.values[0][2].round(2))} ------------''', unsafe_allow_html=True)
         st.write(f'''Your playstyle assciates the most with:''')
-        st.markdown(f'## {dict_players[player_pred.iloc[0].idxmax()]} -> {"{:.2f}".format(ps_preds.values[0][player_pred.iloc[0].idxmax()].round(2))}')
-        if player_pred.iloc[0].idxmax() == 0:
+        st.markdown(f"## {ps_preds.columns[ps_preds.values.argmax()]} -> {max('{:.2f}'.format(ps_preds.values[0][0].round(2)), '{:.2f}'.format(ps_preds.values[0][1].round(2)), '{:.2f}'.format(ps_preds.values[0][2].round(2)))}")
+        # st.markdown(f'## {dict_players[player_pred.iloc[0].idxmax()]} -> {"{:.2f}".format(ps_preds.values[0][player_pred.iloc[0].idxmax()].round(2))}')
+        # if player_pred.iloc[0].idxmax() == 0:
+        if player_pred == 'M0nkey M00n':
             st.markdown('## :fr:')
             st.markdown('''
                 1. Monkey Moon's playstyle - while slower than most professional players - involes being consistantly available to receive a pass or intercept an opposition
                 2. Their ability to play at reasonably high speed whilst maintaining enough boost to contribute at all times makes them a very valuable teammate
                 3. Monkey Moon has arguably the strongest decision making - only using the minimum resources required to make a positive play
             ''')
-        if player_pred.iloc[0].idxmax() == 1:
+        # if player_pred.iloc[0].idxmax() == 1:
+        if player_pred == 'Oski':
             st.markdown(''' 
                 :white_circle: \n
                 :red_circle:''')
@@ -310,7 +312,8 @@ def analyse_game(user_input, player_name):
                 - high average speed
                 - high percentage of time spent furthest forward on the team
             ''')
-        if player_pred.iloc[0].idxmax() == 2:
+        # if player_pred.iloc[0].idxmax() == 2:
+        if player_pred == 'Vatira':
             st.markdown('## :fr:')
             st.markdown('''
                 1. Vatira has a very well rounded playstyle, and is able to play to the strengths of any teammates.
@@ -405,6 +408,12 @@ if show_samples == True and not submit:
 
     3e502845-e51d-43bc-895a-5cfd61e52460        
     ''')
+    st.write('')
+    st.write('''**eden** replay 2:
+
+    305e79bd-9b27-40c6-b0b6-66a73063f3dd        
+    ''')
+    
     st.markdown('---')
     st.markdown('## Low-Mid Rank Replays')
     st.markdown('---')

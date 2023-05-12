@@ -365,7 +365,7 @@ def make_plots(df_original, player_name):
     return plt, df_2
 
     
-def predict_playstyle(df_original, model, ss, poly):
+def predict_playstyle(df_original, model):
     df = df_original.copy()
     try:
         df.drop(columns = 'goals_against_while_last_defender', inplace = True)
@@ -424,9 +424,9 @@ def predict_playstyle(df_original, model, ss, poly):
     for col in df.columns[:-1]:
         df[col] = df[col].astype(float)
         
-    df = poly.transform(ss.transform(df))
-    df_preds = pd.DataFrame(model.predict(df), columns = ['Monkeymoon', 'Oski','Vatira'])
-    df_player = pd.DataFrame(model.predict(df))
+    # df = poly.transform(ss.transform(df))
+    df_preds = pd.DataFrame(model.predict_proba(df), columns = ['MonkeyMoon', 'Oski', 'Vatira'])       
+    df_player= model.predict(df)
     return df_preds, df_player
 
 def r_squared(y_true, y_pred):
@@ -436,7 +436,7 @@ def r_squared(y_true, y_pred):
 
     
 
-def predict_rank(df_original, model, ss, dict_ranks):
+def predict_rank(df_original, model, dict_ranks):
     df = df_original.copy()
     
     # df.dropna(inplace =True)
@@ -504,7 +504,7 @@ def predict_rank(df_original, model, ss, dict_ranks):
         df.drop(columns = 'player_name', inplace = True)
     except KeyError:
         pass
-    rank_preds = model.predict(ss.transform(df))
+    rank_preds = model.predict(df)
     rank_preds_text = [dict_ranks[int(pred)] for pred in rank_preds]
     return rank_preds_text
     
