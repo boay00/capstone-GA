@@ -364,10 +364,8 @@ def make_plots(df_original, player_name):
         make_spider(df = df_2, row=row, title=df_2['player'][row], color=my_palette(row))
     return plt, df_2
 
-with open('nn_model_ss_poly.pkl', 'rb') as picklefile:
-    nn_model, ss, poly = pickle.load(picklefile)
     
-def predict_playstyle(df_original):
+def predict_playstyle(df_original, model, ss, poly):
     df = df_original.copy()
     try:
         df.drop(columns = 'goals_against_while_last_defender', inplace = True)
@@ -427,8 +425,8 @@ def predict_playstyle(df_original):
         df[col] = df[col].astype(float)
         
     df = poly.transform(ss.transform(df))
-    df_preds = pd.DataFrame(nn_model.predict(df), columns = ['Monkeymoon', 'Oski','Vatira'])
-    df_player = pd.DataFrame(nn_model.predict(df))
+    df_preds = pd.DataFrame(model.predict(df), columns = ['Monkeymoon', 'Oski','Vatira'])
+    df_player = pd.DataFrame(model.predict(df))
     return df_preds, df_player
 
 def r_squared(y_true, y_pred):
@@ -436,17 +434,9 @@ def r_squared(y_true, y_pred):
     SS_tot = K.sum(K.square(y_true - K.mean(y_true)))
     return (1 - SS_res/(SS_tot + K.epsilon()))
 
-with open('nn_model_rank_0.pkl', 'rb') as picklefile:
-    rank_model, ss_rank = pickle.load(picklefile)
-    
-with open('dict_ranks.pkl', 'rb') as picklefile:
-    dict_ranks = pickle.load(picklefile)
     
 
-
-
-
-def predict_rank(df_original):
+def predict_rank(df_original, model, ss, dict_ranks):
     df = df_original.copy()
     
     # df.dropna(inplace =True)
@@ -514,7 +504,7 @@ def predict_rank(df_original):
         df.drop(columns = 'player_name', inplace = True)
     except KeyError:
         pass
-    rank_preds = rank_model.predict(ss_rank.transform(df))
+    rank_preds = model.predict(ss.transform(df))
     rank_preds_text = [dict_ranks[int(pred)] for pred in rank_preds]
     return rank_preds_text
     

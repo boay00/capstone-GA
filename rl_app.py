@@ -30,7 +30,16 @@ from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.callbacks import EarlyStopping
 
 from functions import (get_data, make_spider, make_plots, predict_playstyle,
-                       r_squared, predict_rank, dict_ranks)
+                       r_squared, predict_rank)
+
+with open('nn_model_ss_poly.pkl', 'rb') as picklefile:
+    nn_model, ss_ps, poly = pickle.load(picklefile)
+
+with open('nn_model_rank_0.pkl', 'rb') as picklefile:
+    rank_model, ss_rank = pickle.load(picklefile)
+
+with open('dict_ranks.pkl', 'rb') as picklefile:
+    dict_ranks = pickle.load(picklefile)
 
 rank_images = {}
 rank_images['Bronze 1 Division 1'] = Image.open('ranks/b1.png')
@@ -182,7 +191,7 @@ def analyse_game(user_input, player_name):
                      https://ballchasing.com/replay/{user_input}''')
         try:
 
-            ps_preds, player_pred = predict_playstyle(id_data)
+            ps_preds, player_pred = predict_playstyle(id_data, model = nn_model, ss = ss_ps, poly = poly)
         except KeyError:
             failed = True
         
@@ -192,7 +201,7 @@ def analyse_game(user_input, player_name):
 
         try:
 
-            rank_preds = predict_rank(id_data)
+            rank_preds = predict_rank(id_data, model = rank_model, ss = ss_rank, dict_ranks = dict_ranks)
         except KeyError:
             failed = True
         
