@@ -36,7 +36,7 @@ from functions import (get_data, make_spider, make_plots, predict_playstyle,
 with open('et_model_4.pkl', 'rb') as picklefile:
     et_model = pickle.load(picklefile)
 
-with open('gbrt_3.pkl', 'rb') as picklefile:
+with open('gbrt_4.pkl', 'rb') as picklefile:
     rank_model = pickle.load(picklefile)
 
 with open('dict_ranks.pkl', 'rb') as picklefile:
