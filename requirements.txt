@@ -13,7 +13,7 @@ pyls-spyder
 requests-oauthlib
 
 scikit-learn
-scipy==1.9.1
+scipy
 
 sklearn
 
