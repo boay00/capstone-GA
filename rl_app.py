@@ -13,33 +13,34 @@ import scipy as scp
 from math import pi
 
 
-from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
-from imblearn.pipeline import Pipeline
+# from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
+# from imblearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, PolynomialFeatures
-from sklearn.ensemble import ExtraTreesClassifier, GradientBoostingRegressor
-from sklearn.metrics import mean_squared_error, r2_score
+# from sklearn.ensemble import ExtraTreesClassifier, GradientBoostingRegressor
+# from sklearn.metrics import mean_squared_error, r2_score
 
 import os
 import pickle
 
-import tensorflow.keras.backend as K
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
-from tensorflow.keras import metrics
-from tensorflow.keras.utils import to_categorical
-from tensorflow.keras.callbacks import EarlyStopping
+# import tensorflow.keras.backend as K
+# from tensorflow.keras.models import Sequential
+# from tensorflow.keras.layers import Dense
+# from tensorflow.keras import metrics
+# from tensorflow.keras.utils import to_categorical
+# from tensorflow.keras.callbacks import EarlyStopping
 
 from functions import (get_data, make_spider, make_plots, predict_playstyle,
                        r_squared, predict_rank)
 
-# with open('nn_model_ss_poly_2.pkl', 'rb') as picklefile:
-#     nn_model, ss_ps, poly = pickle.load(picklefile)
 
-# with open('nn_model_rank_0_2.pkl', 'rb') as picklefile:
-#     rank_model, ss_rank = pickle.load(picklefile)
+with open('nn_model_ss_poly_2.pkl', 'rb') as picklefile:
+    nn_model, ss_ps, poly = pickle.load(picklefile)
 
-# with open('dict_ranks.pkl', 'rb') as picklefile:
-#     dict_ranks = pickle.load(picklefile)
+with open('nn_model_rank_0_2.pkl', 'rb') as picklefile:
+    rank_model, ss_rank = pickle.load(picklefile)
+
+with open('dict_ranks.pkl', 'rb') as picklefile:
+    dict_ranks = pickle.load(picklefile)
 
 rank_images = {}
 rank_images['Bronze 1 Division 1'] = Image.open('ranks/b1.png')
