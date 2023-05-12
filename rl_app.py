@@ -11,8 +11,6 @@ import matplotlib.tri as tri
 import seaborn as sns
 import scipy as scp
 from math import pi
-from bokeh.plotting import figure
-from bokeh.models import HoverTool
 
 
 from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
