@@ -3,9 +3,7 @@ streamlit
 Pillow
 
 requests
-json
 pandas
-time
 numpy
 matplotlib.pyplot
 matplotlib.tri
@@ -20,4 +18,4 @@ imblearn.pipeline
 os
 pickle
 
-tensorflow.keras
+tensorflow
