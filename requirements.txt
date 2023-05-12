@@ -1,28 +1,23 @@
 
+streamlit
+PIL
 
-imbalanced-learn
-
-matplotlib
-
-numpy
-
+requests
+json
 pandas
-
-pyls-spyder
-
-requests-oauthlib
-
-scikit-learn
+time
+numpy
+matplotlib.pyplot
+matplotlib.tri
+seaborn
 scipy
+math
+
+
 
 sklearn
+imblearn.pipeline
+os
+pickle
 
-streamlit
-
-
-tensorflow
-tensorflow-addons
-tensorflow-datasets
-tensorflow-estimator
-tensorflow-io-gcs-filesystem
-tensorflow-metadata
+tensorflow.keras
