@@ -6,13 +6,10 @@ requests
 pandas
 numpy
 matplotlib
-matplotlib
 seaborn
 scipy
 
 sklearn
 imblearn
 
-
-tensorflow
 psrecord
