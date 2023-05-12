@@ -1,5 +1,5 @@
 import streamlit as st
-from PIL import Image
+from Pillow import Image
 
 import requests
 import json
