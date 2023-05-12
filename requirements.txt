@@ -9,7 +9,7 @@ matplotlib
 seaborn
 scipy
 
-sklearn==1.2.2
+sklearn
 imblearn
 
 psrecord
