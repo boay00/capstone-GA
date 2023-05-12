@@ -1,5 +1,6 @@
 import streamlit as st
 from PIL import Image
+import torch
 
 import requests
 import json
@@ -33,14 +34,14 @@ from functions import (get_data, make_spider, make_plots, predict_playstyle,
                        r_squared, predict_rank)
 
 
-with open('nn_model_ss_poly_2.pkl', 'rb') as picklefile:
-    nn_model, ss_ps, poly = pickle.load(picklefile)
+# with open('nn_model_ss_poly_2.pkl', 'rb') as picklefile:
+#     nn_model, ss_ps, poly = pickle.load(picklefile)
 
-with open('nn_model_rank_0_2.pkl', 'rb') as picklefile:
-    rank_model, ss_rank = pickle.load(picklefile)
+# with open('nn_model_rank_0_2.pkl', 'rb') as picklefile:
+#     rank_model, ss_rank = pickle.load(picklefile)
 
-with open('dict_ranks.pkl', 'rb') as picklefile:
-    dict_ranks = pickle.load(picklefile)
+# with open('dict_ranks.pkl', 'rb') as picklefile:
+#     dict_ranks = pickle.load(picklefile)
 
 rank_images = {}
 rank_images['Bronze 1 Division 1'] = Image.open('ranks/b1.png')
