@@ -5,8 +5,8 @@ Pillow
 requests
 pandas
 numpy
-matplotlib.pyplot
-matplotlib.tri
+matplotlib
+matplotlib
 seaborn
 scipy
 math
@@ -14,7 +14,7 @@ math
 
 
 sklearn
-imblearn.pipeline
+imblearn
 os
 pickle
 
