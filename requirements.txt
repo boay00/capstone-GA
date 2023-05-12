@@ -3,21 +3,15 @@ streamlit
 Pillow
 
 requests
-json
 pandas
-time
 numpy
-matplotlib.pyplot
-matplotlib.tri
+matplotlib
+matplotlib
 seaborn
 scipy
-math
-
-
 
 sklearn
-imblearn.pipeline
-os
-pickle
+imblearn
 
-tensorflow.keras
+
+tensorflow
