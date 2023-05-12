@@ -9,7 +9,7 @@ matplotlib
 seaborn
 scipy
 
-sklearn
+scikit-learn
 imblearn
 
 psrecord
