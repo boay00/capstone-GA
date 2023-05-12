@@ -13,6 +13,7 @@ import pickle
 # from tensorflow.keras import metrics
 # from tensorflow.keras.utils import to_categorical
 # from tensorflow.keras.callbacks import EarlyStopping
+from tensorflow import keras
 
 from functions import (get_data, make_spider, make_plots, predict_playstyle,
                        r_squared, predict_rank)
@@ -21,8 +22,7 @@ from functions import (get_data, make_spider, make_plots, predict_playstyle,
 with open('et_model_4.pkl', 'rb') as picklefile:
     et_model = pickle.load(picklefile)
 
-with open('nn_model_rank_0_3.pkl', 'rb') as picklefile:
-    rank_model = pickle.load(picklefile)
+nn_model = keras.models.load_model('nn_model_tf_save.h5')
 
 with open('ss.pkl', 'rb') as picklefile:
     ss_rank = pickle.load(picklefile)
