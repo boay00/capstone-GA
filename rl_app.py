@@ -102,15 +102,15 @@ def analyse_game(user_input, player_name):
             return st.write(f'''Problem loading the data - Check that the player name matches the name used in this game
                      https://ballchasing.com/replay/{user_input}''')
 
-        try:
+        # try:
 
-            rank_preds = predict_rank(id_data, model = rank_model, dict_ranks = dict_ranks)
-        except KeyError:
-            failed = True
+        #     rank_preds = predict_rank(id_data, model = rank_model, dict_ranks = dict_ranks)
+        # except KeyError:
+        #     failed = True
         
-        if failed:
-            return st.write(f'''Problem loading the data - Check that the player name matches the name used in this game
-                     https://ballchasing.com/replay/{user_input}''')
+        # if failed:
+        #     return st.write(f'''Problem loading the data - Check that the player name matches the name used in this game
+        #              https://ballchasing.com/replay/{user_input}''')
 
         # Display the output
         st.write(id_data)
@@ -142,14 +142,14 @@ def analyse_game(user_input, player_name):
         # st.markdown(f'## {dict_players[player_pred.iloc[0].idxmax()]} -> {"{:.2f}".format(ps_preds.values[0][player_pred.iloc[0].idxmax()].round(2))}')
         # if player_pred.iloc[0].idxmax() == 0:
 
-        st.markdown('---')
-        rank_str = ''.join(rank_preds)
+        # st.markdown('---')
+        # rank_str = ''.join(rank_preds)
         
  
     
-        st.markdown('# Rank Predictions')
+        # st.markdown('# Rank Predictions')
 
-        st.markdown(f"## {rank_str}")
+        # st.markdown(f"## {rank_str}")
 
  
 
