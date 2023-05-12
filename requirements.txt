@@ -12,4 +12,6 @@ scipy
 scikit-learn
 imblearn
 
+tensorflow
+
 psrecord
