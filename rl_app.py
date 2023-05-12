@@ -1,18 +1,15 @@
 import streamlit as st
-from Pillow import Image
-
+from PIL import Image
 import requests
 import json
 import pandas as pd
-import time
+
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.tri as tri
 import seaborn as sns
 import scipy as scp
 from math import pi
-from bokeh.plotting import figure
-from bokeh.models import HoverTool
 
 
 from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV

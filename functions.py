@@ -364,7 +364,7 @@ def make_plots(df_original, player_name):
         make_spider(df = df_2, row=row, title=df_2['player'][row], color=my_palette(row))
     return plt, df_2
 
-with open('3-modeling-playstyle/code/nn_model_ss_poly.pkl', 'rb') as picklefile:
+with open('nn_model_ss_poly.pkl', 'rb') as picklefile:
     nn_model, ss, poly = pickle.load(picklefile)
     
 def predict_playstyle(df_original):
@@ -436,10 +436,10 @@ def r_squared(y_true, y_pred):
     SS_tot = K.sum(K.square(y_true - K.mean(y_true)))
     return (1 - SS_res/(SS_tot + K.epsilon()))
 
-with open('4-modeling-rank-predictor/code/nn_model_rank_0.pkl', 'rb') as picklefile:
+with open('nn_model_rank_0.pkl', 'rb') as picklefile:
     rank_model, ss_rank = pickle.load(picklefile)
     
-with open('4-modeling-rank-predictor/code/dict_ranks.pkl', 'rb') as picklefile:
+with open('dict_ranks.pkl', 'rb') as picklefile:
     dict_ranks = pickle.load(picklefile)
     
 
