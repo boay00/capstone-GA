@@ -128,11 +128,32 @@ rank_images['Supersonic Legend'] = Image.open('ranks/ssl.png')
 
 
 
-st.title('Prediction HUB')
+st.title('Rocket League Playstyle Predictor')
+st.markdown('''##### Bede Young
+---''')
 st.set_option('deprecation.showPyplotGlobalUse', False)
-
-st.markdown('''---
+with st.expander('Click Here to learn a little bit about Rocket League :)'):
+    st.markdown('''
+    ## What is Rocket League?
+    ---
+    - Rocket League is a free to play, player vs player video game in which rocket powered cars are attempting to use their car bodies to score in the opposition teams net... it sounds gimicky in principle, but the incredible levels of precision required to master this game make it one of the most rewarding games for progression and improvement.
+    - The standard game is two teams of 3 players, trying to score more goals than the opposition in a 5 minute game.
+    - At its heart this is a very simple game, with effective tactics being defined by the best players pushing the skill ceiling, as opposed to changes in the games balance
+    
+    ### Why is my playstyle important?
+    - Whilst this application may not be of use at lower ranks eg. bronze to platinum, professional e-sports players have proven that adopting different playstyles can produce equally strong results at the highest level.
+    - For players in the range Diamond to Grand Champion, it can be unclear what to work on specifically in order to improve
+        - Just improving your speed of play may help you score more often, but leave your team vulnerable behind you.
+    - Following the example set by a professional player can help a player understand the areas lacking in their game in comparison to that player.
+        - if I have decided to follow the playstyle example of Oski, I can see that my aggression stat is low when compared to my speed - for example
+    
+    ''')
+st.markdown('''
 #### If you have played Rocket League, navigate to [this link](https://ballchasing.com), and enter your gamertag in the right search bar
+#### You can find your replay id by copying the long id at the end of the url after '...replay/'
+> example url:
+    https://ballchasing.com/replay/825ecfa3-ddb0-483f-898a-6b3321b15ddf
+ 
 - Please filter for any of these 3v3 game modes:
     - 'Ranked Solo Standard'
     - 'Ranked Standard'
