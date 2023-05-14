@@ -131,6 +131,9 @@ def make_spider(df, row, title, color):
 
     plt.title(title, size=11, color=color, y=1.1)
 
+
+with open('max_metrics.pickle', 'rb') as picklefile:
+    max_speed, max_boost_eff, max_agg, max_team_cohesion, max_game_inv = pickle.load(picklefile)
     
 def make_plots(df_original, player_name):
     
