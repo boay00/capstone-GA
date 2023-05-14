@@ -512,6 +512,6 @@ def predict_rank(df_original, model, ss, dict_ranks):
     except KeyError:
         pass
     rank_preds = model.predict(ss.transform(df))
-    rank_preds_text = [dict_ranks[int(pred)] for pred in rank_preds]
+    rank_preds_text = [dict_ranks[max(0,min(85,int(pred)))] for pred in rank_preds]
     return rank_preds_text
     

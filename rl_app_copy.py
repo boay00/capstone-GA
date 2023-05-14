@@ -90,7 +90,7 @@ st.markdown('''
     - 'Unranked Standard'
 - (Techincally any 3v3 game mode will work, so tournaments and rumble, dropshot, snowday would still work! My models have never seen data from extra modes - so try for fun! :grin:)
 - Only players on PC can upload replays to ballchasing, although console players can still find games other people have uploaded with them also playing in!
-- NB. Players at ranks of diamond or higher are fare more likely to find replays - since lower ranked players rarely upload replays to ballchasing.
+- NB. Players at ranks of diamond or higher are far more likely to find replays - since lower ranked players rarely upload replays to ballchasing.
 
 
 ''')
