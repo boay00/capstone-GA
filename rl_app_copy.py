@@ -22,7 +22,7 @@ from functions import (get_data, make_spider, make_plots, predict_playstyle,
 with open('et_model_4.pkl', 'rb') as picklefile:
     et_model = pickle.load(picklefile)
 
-nn_model = keras.models.load_model('nn_model_tf_save.h5')
+rank_model = keras.models.load_model('nn_model_tf_save.h5')
 
 with open('ss.pkl', 'rb') as picklefile:
     ss_rank = pickle.load(picklefile)
