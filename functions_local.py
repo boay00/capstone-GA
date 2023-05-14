@@ -13,12 +13,12 @@ from math import pi
 from imblearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, PolynomialFeatures
 from sklearn.ensemble import ExtraTreesClassifier
-# from tensorflow.keras.models import Sequential, load_model
-# from tensorflow.keras.layers import Dense
-# from tensorflow.keras.utils import to_categorical
-# from tensorflow.keras.callbacks import EarlyStopping
-# from tensorflow.keras import metrics
-# import tensorflow.keras.backend as K
+from tensorflow.keras.models import Sequential, load_model
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.utils import to_categorical
+from tensorflow.keras.callbacks import EarlyStopping
+from tensorflow.keras import metrics
+import tensorflow.keras.backend as K
 
     
 
@@ -444,7 +444,7 @@ def r_squared(y_true, y_pred):
 
     
 
-def predict_rank(df_original, model, dict_ranks):
+def predict_rank(df_original, model, ss, dict_ranks):
     df = df_original.copy()
     
     to_drop = [
@@ -511,7 +511,7 @@ def predict_rank(df_original, model, dict_ranks):
         df.drop(columns = 'player_name', inplace = True)
     except KeyError:
         pass
-    rank_preds = model.predict(df)
+    rank_preds = model.predict(ss.transform(df))
     rank_preds_text = [dict_ranks[int(pred)] for pred in rank_preds]
     return rank_preds_text
     

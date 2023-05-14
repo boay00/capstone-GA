@@ -15,11 +15,11 @@ import pickle
 # from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow import keras
 
-from functions import (get_data, make_spider, make_plots, predict_playstyle,
+from functions_local import (get_data, make_spider, make_plots, predict_playstyle,
                        r_squared, predict_rank)
 
 
-with open('et_model_4.pkl', 'rb') as picklefile:
+with open('et_model_5.pkl', 'rb') as picklefile:
     et_model = pickle.load(picklefile)
 
 rank_model = keras.models.load_model('nn_model_tf_save.h5')

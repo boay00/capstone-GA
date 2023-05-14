@@ -15,15 +15,110 @@ from functions import (get_data, make_spider, make_plots, predict_playstyle,
                        r_squared, predict_rank)
 
 
-with open('et_model_4.pkl', 'rb') as picklefile:
+with open('et_model_5.pkl', 'rb') as picklefile:
     et_model = pickle.load(picklefile)
 
 
-# with open('gbrt_5.pkl', 'rb') as picklefile:
-#     rank_model = pickle.load(picklefile)
+with open('rf_model_1.pkl', 'rb') as picklefile:
+    rank_model = pickle.load(picklefile)
 
-# with open('dict_ranks.pkl', 'rb') as picklefile:
-#     dict_ranks = pickle.load(picklefile)
+with open('dict_ranks.pkl', 'rb') as picklefile:
+    dict_ranks = pickle.load(picklefile)
+
+rank_images = {}
+rank_images['Bronze 1 Division 1'] = Image.open('ranks/b1.png')
+rank_images['Bronze 1 Division 2'] = Image.open('ranks/b1.png')
+rank_images['Bronze 1 Division 3'] = Image.open('ranks/b1.png')
+rank_images['Bronze 1 Division 4'] = Image.open('ranks/b1.png')
+rank_images['Bronze 2 Division 1'] = Image.open('ranks/b2.png')
+rank_images['Bronze 2 Division 2'] = Image.open('ranks/b2.png')
+rank_images['Bronze 2 Division 3'] = Image.open('ranks/b2.png')
+rank_images['Bronze 2 Division 4'] = Image.open('ranks/b2.png')
+rank_images['Bronze 3 Division 1'] = Image.open('ranks/b3.png')
+rank_images['Bronze 3 Division 2'] = Image.open('ranks/b3.png')
+rank_images['Bronze 3 Division 3'] = Image.open('ranks/b3.png')
+rank_images['Bronze 3 Division 4'] = Image.open('ranks/b3.png')
+
+rank_images['Silver 1 Division 1'] = Image.open('ranks/s1.png')
+rank_images['Silver 1 Division 2'] = Image.open('ranks/s1.png')
+rank_images['Silver 1 Division 3'] = Image.open('ranks/s1.png')
+rank_images['Silver 1 Division 4'] = Image.open('ranks/s1.png')
+rank_images['Silver 2 Division 1'] = Image.open('ranks/s2.png')
+rank_images['Silver 2 Division 2'] = Image.open('ranks/s2.png')
+rank_images['Silver 2 Division 3'] = Image.open('ranks/s2.png')
+rank_images['Silver 2 Division 4'] = Image.open('ranks/s2.png')
+rank_images['Silver 3 Division 1'] = Image.open('ranks/s3.png')
+rank_images['Silver 3 Division 2'] = Image.open('ranks/s3.png')
+rank_images['Silver 3 Division 3'] = Image.open('ranks/s3.png')
+rank_images['Silver 3 Division 4'] = Image.open('ranks/s3.png')
+
+rank_images['Gold 1 Division 1'] = Image.open('ranks/g1.png')
+rank_images['Gold 1 Division 2'] = Image.open('ranks/g1.png')
+rank_images['Gold 1 Division 3'] = Image.open('ranks/g1.png')
+rank_images['Gold 1 Division 4'] = Image.open('ranks/g1.png')
+rank_images['Gold 2 Division 1'] = Image.open('ranks/g2.png')
+rank_images['Gold 2 Division 2'] = Image.open('ranks/g2.png')
+rank_images['Gold 2 Division 3'] = Image.open('ranks/g2.png')
+rank_images['Gold 2 Division 4'] = Image.open('ranks/g2.png')
+rank_images['Gold 3 Division 1'] = Image.open('ranks/g3.png')
+rank_images['Gold 3 Division 2'] = Image.open('ranks/g3.png')
+rank_images['Gold 3 Division 3'] = Image.open('ranks/g3.png')
+rank_images['Gold 3 Division 4'] = Image.open('ranks/g3.png')
+
+rank_images['Platinum 1 Division 1'] = Image.open('ranks/p1.png')
+rank_images['Platinum 1 Division 2'] = Image.open('ranks/p1.png')
+rank_images['Platinum 1 Division 3'] = Image.open('ranks/p1.png')
+rank_images['Platinum 1 Division 4'] = Image.open('ranks/p1.png')
+rank_images['Platinum 2 Division 1'] = Image.open('ranks/p2.png')
+rank_images['Platinum 2 Division 2'] = Image.open('ranks/p2.png')
+rank_images['Platinum 2 Division 3'] = Image.open('ranks/p2.png')
+rank_images['Platinum 2 Division 4'] = Image.open('ranks/p2.png')
+rank_images['Platinum 3 Division 1'] = Image.open('ranks/p3.png')
+rank_images['Platinum 3 Division 2'] = Image.open('ranks/p3.png')
+rank_images['Platinum 3 Division 3'] = Image.open('ranks/p3.png')
+rank_images['Platinum 3 Division 4'] = Image.open('ranks/p3.png')
+
+rank_images['Diamond 1 Division 1'] = Image.open('ranks/d1.png')
+rank_images['Diamond 1 Division 2'] = Image.open('ranks/d1.png')
+rank_images['Diamond 1 Division 3'] = Image.open('ranks/d1.png')
+rank_images['Diamond 1 Division 4'] = Image.open('ranks/d1.png')
+rank_images['Diamond 2 Division 1'] = Image.open('ranks/d2.png')
+rank_images['Diamond 2 Division 2'] = Image.open('ranks/d2.png')
+rank_images['Diamond 2 Division 3'] = Image.open('ranks/d2.png')
+rank_images['Diamond 2 Division 4'] = Image.open('ranks/d2.png')
+rank_images['Diamond 3 Division 1'] = Image.open('ranks/d3.png')
+rank_images['Diamond 3 Division 2'] = Image.open('ranks/d3.png')
+rank_images['Diamond 3 Division 3'] = Image.open('ranks/d3.png')
+rank_images['Diamond 3 Division 4'] = Image.open('ranks/d3.png')
+
+rank_images['Champion 1 Division 1'] = Image.open('ranks/c1.png')
+rank_images['Champion 1 Division 2'] = Image.open('ranks/c1.png')
+rank_images['Champion 1 Division 3'] = Image.open('ranks/c1.png')
+rank_images['Champion 1 Division 4'] = Image.open('ranks/c1.png')
+rank_images['Champion 2 Division 1'] = Image.open('ranks/c2.png')
+rank_images['Champion 2 Division 2'] = Image.open('ranks/c2.png')
+rank_images['Champion 2 Division 3'] = Image.open('ranks/c2.png')
+rank_images['Champion 2 Division 4'] = Image.open('ranks/c2.png')
+rank_images['Champion 3 Division 1'] = Image.open('ranks/c3.png')
+rank_images['Champion 3 Division 2'] = Image.open('ranks/c3.png')
+rank_images['Champion 3 Division 3'] = Image.open('ranks/c3.png')
+rank_images['Champion 3 Division 4'] = Image.open('ranks/c3.png')
+
+rank_images['Grand Champion 1 Division 1'] = Image.open('ranks/gc1.png')
+rank_images['Grand Champion 1 Division 2'] = Image.open('ranks/gc1.png')
+rank_images['Grand Champion 1 Division 3'] = Image.open('ranks/gc1.png')
+rank_images['Grand Champion 1 Division 4'] = Image.open('ranks/gc1.png')
+rank_images['Grand Champion 2 Division 1'] = Image.open('ranks/gc2.png')
+rank_images['Grand Champion 2 Division 2'] = Image.open('ranks/gc2.png')
+rank_images['Grand Champion 2 Division 3'] = Image.open('ranks/gc2.png')
+rank_images['Grand Champion 2 Division 4'] = Image.open('ranks/gc2.png')
+rank_images['Grand Champion 3 Division 1'] = Image.open('ranks/gc3.png')
+rank_images['Grand Champion 3 Division 2'] = Image.open('ranks/gc3.png')
+rank_images['Grand Champion 3 Division 3'] = Image.open('ranks/gc3.png')
+rank_images['Grand Champion 3 Division 4'] = Image.open('ranks/gc3.png')
+
+rank_images['Supersonic Legend'] = Image.open('ranks/ssl.png')
+
 
 st.title('Prediction HUB')
 st.set_option('deprecation.showPyplotGlobalUse', False)
@@ -85,15 +180,15 @@ def analyse_game(user_input, player_name):
             return st.write(f'''Problem loading the data - Check that the player name matches the name used in this game
                      https://ballchasing.com/replay/{user_input}''')
 
-        # try:
+        try:
 
-        #     rank_preds = predict_rank(id_data, model = rank_model, dict_ranks = dict_ranks)
-        # except KeyError:
-        #     failed = True
+            rank_preds = predict_rank(id_data, model = rank_model, dict_ranks = dict_ranks)
+        except KeyError:
+            failed = True
         
-        # if failed:
-        #     return st.write(f'''Problem loading the data - Check that the player name matches the name used in this game
-        #              https://ballchasing.com/replay/{user_input}''')
+        if failed:
+            return st.write(f'''Problem loading the data - Check that the player name matches the name used in this game
+                     https://ballchasing.com/replay/{user_input}''')
 
         # Display the output
         st.write(id_data)
@@ -206,14 +301,18 @@ def analyse_game(user_input, player_name):
             '''
             )
         st.markdown('---')
-        # st.markdown('---')
-        # rank_str = ''.join(rank_preds)
+        rank_str = ''.join(rank_preds)
         
- 
-    
-        # st.markdown('# Rank Predictions')
+        col1_1, col2_1 = st.columns(2)
+        with col1_1:
+            st.markdown('# Rank Predictions')
 
-        # st.markdown(f"## {rank_str}")
+            st.markdown(f"## {rank_str}")
+
+        with col2_1:
+            st.image(rank_images[rank_str])
+
+        st.markdown('---')
 
  
 
