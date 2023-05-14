@@ -1,0 +1,17 @@
+
+streamlit
+Pillow
+
+requests
+pandas
+numpy
+matplotlib
+seaborn
+scipy
+
+scikit-learn
+imblearn
+
+tensorflow
+
+psrecord
