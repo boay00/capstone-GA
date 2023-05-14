@@ -1,33 +1,15 @@
 import streamlit as st
 from PIL import Image
 
-import requests
-import json
 import pandas as pd
 
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.tri as tri
-import seaborn as sns
-import scipy as scp
-from math import pi
 
-
-from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
-from imblearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler, PolynomialFeatures
-from sklearn.ensemble import ExtraTreesClassifier, GradientBoostingRegressor
-from sklearn.metrics import mean_squared_error, r2_score
 
 import os
 import pickle
 
-# import tensorflow.keras.backend as K
-# from tensorflow.keras.models import Sequential
-# from tensorflow.keras.layers import Dense
-# from tensorflow.keras import metrics
-# from tensorflow.keras.utils import to_categorical
-# from tensorflow.keras.callbacks import EarlyStopping
+
 
 from functions import (get_data, make_spider, make_plots, predict_playstyle,
                        r_squared, predict_rank)

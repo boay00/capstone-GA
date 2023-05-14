@@ -97,44 +97,52 @@ def get_data(replay_id, player_name):
 
 
 def make_spider(df, row, title, color):
-
-    # number of variable
+    '''
+    This function takes in a dataframe of player stats, and produces len(df) number of radar plots highlighting the playstyle of that player
+    The y limit in floored a the minumum stat value - 1 and scaled according to the pro max metrics pickled above
+    '''
+    
     categories=list(df)[1:]
     N = len(categories)
-
-    # What will be the angle of each axis in the plot? (we divide the plot / number of variable)
+    
+    # set the angles of the plot
     angles = [n / float(N) * 2 * pi for n in range(N)]
     angles += angles[:1]
 
-    # Initialise the spider plot
     ax = plt.subplot(1,len(df),row+1, polar=True)
 
-    # If you want the first axis to be on top:
+    # first axis on top:
     ax.set_theta_offset(pi / 2)
     ax.set_theta_direction(-1)
 
-    # Draw one axe per variable + add labels labels yet
+    # one axe per variable and add labels
     plt.xticks(angles[:-1], categories, color='grey', size=8)
 
-    # Draw ylabels
+    # ylabels set ylim to lowest int(value) - 1
     ax.set_rlabel_position(0)
     plt.yticks([1,2,3,4,5,6,7,8,9], ['1',"2",'3',"4",'5',"6",'7', "8",'9'], color="grey", size=7)
     lowest = df.select_dtypes(include = 'number').values.min()
     plt.ylim(min(5,max(0, (int(lowest) - 1))),10)
 
-    # Ind1
     values=df.loc[row].drop('player').values.flatten().tolist()
     values += values[:1]
     ax.plot(angles, values, color=color, linewidth=2, linestyle='solid')
     ax.fill(angles, values, color=color, alpha=0.4)
 
-    # Add a title
     plt.title(title, size=11, color=color, y=1.1)
 
     
 def make_plots(df_original, player_name):
+    
+    '''
+    This function performs the full process of cleaning, metric calculation and plot generation following data collection.
+    It generates the mean for each stat, splits these into required sub dataframes, then runs the stats through the algorithm created
+    which then produces the general playstyle stats
+    '''
+    
     df = df_original.copy()
-
+    
+    # means calculation and cleaning
     means = df.mean(axis= 0)
     df.index = range(len(df.index))
     df = df.drop(columns = ['player_name'])
@@ -142,6 +150,7 @@ def make_plots(df_original, player_name):
     df = df.loc[[len(df) - 1], :]
     df = df.rename(index={len(df): player_name})
 
+    # some games save this stat, others do not, so just drop all instances
     try:
         df.drop(columns = 'goals_against_while_last_defender')
     except KeyError:
@@ -188,6 +197,7 @@ def make_plots(df_original, player_name):
     ]
     df.drop(columns = to_drop, inplace = True)
 
+    # assorting stats into their relevant metric categories
     speed = ['count_powerslide', 
              'percent_supersonic_speed', 
              'avg_speed_percentage', 
@@ -251,6 +261,7 @@ def make_plots(df_original, player_name):
                         'inflicted'
     ]
 
+    # create dataframes for each of the 5 metrics
     speed_df = df.loc[:, speed]
     boost_efficiency_df = df.loc[:, boost_efficiency]
     aggression_df = df.loc[:, aggression]
@@ -259,15 +270,18 @@ def make_plots(df_original, player_name):
 
 
 
+    # speed stat calculation
+    # each addition was weighted to roughly the same weight using trial and error
     speed_df['speed'] = (speed_df.count_powerslide / 10
                         ) + (speed_df.avg_speed_percentage / 10
                         ) + (speed_df.percent_high_air
                         ) + ((speed_df.percent_low_air / speed_df.percent_ground) * 9
                         ) + (speed_df.bcpm / 66) + ((speed_df.percent_supersonic_speed/speed_df.percent_slow_speed
                         ) * 15)
-
-    speed_df['speed'] = speed_df['speed'] / 53.50791271036635 * 9.5
-
+    # speed stat scaled using pro max metric value
+    speed_df['speed'] = speed_df['speed'] / max_speed * 9.5
+    
+    # process repeated for each of the 5 metrics
     boost_efficiency_df['boost_efficiency'] = boost_efficiency_df.avg_amount * (((boost_efficiency_df.amount_collected_small / boost_efficiency_df.amount_collected
                                               ) * 25) + ((1/boost_efficiency_df.avg_speed_percentage) * (boost_efficiency_df.bcpm) 
                                               ) * 1.2 + (1 / (boost_efficiency_df.amount_overfill / boost_efficiency_df.amount_collected)
@@ -285,7 +299,7 @@ def make_plots(df_original, player_name):
 
 
 
-    boost_efficiency_df['boost_efficiency'] = (boost_efficiency_df.boost_efficiency / 9.117117480246007
+    boost_efficiency_df['boost_efficiency'] = (boost_efficiency_df.boost_efficiency / max_boost_eff
                                                                                         ) * 9.5
     aggression_df['aggression'] = (aggression_df.amount_stolen / 100
                                   ) + ((aggression_df.amount_used_while_supersonic / 100
@@ -297,19 +311,15 @@ def make_plots(df_original, player_name):
                                   ) * 6)
 
 
-    aggression_df['aggression'] = (aggression_df.aggression / 47.487394376319074) * 9.5
+    aggression_df['aggression'] = (aggression_df.aggression / max_agg) * 9.5
 
 
     team_cohesion_df['team_cohesion'] = (((team_cohesion_df.amount_collected_small / team_cohesion_df.amount_collected_big
                                         ) * (boost_efficiency_df.amount_collected) 
                                         ) / 150) + (aggression_df.percent_most_back/team_cohesion_df.avg_distance_to_mates) * 800
-    # team_cohesion_df['team_cohesion'] = ((abs(team_cohesion_df.avg_distance_to_ball_no_possession - 
-    #  team_cohesion_df.avg_distance_to_ball_possession) + (team_cohesion_df.avg_distance_to_ball_no_possession - 
-    #  team_cohesion_df.avg_distance_to_ball_possession) / 2) / 75
-    # ) + ((team_cohesion_df.amount_collected_small / team_cohesion_df.amount_collected_big
-    #     ) * 14) + (25_000 /team_cohesion_df.avg_distance_to_mates)
 
-    team_cohesion_df['team_cohesion'] = (team_cohesion_df.team_cohesion / 16.53255844458679) * 9.5
+
+    team_cohesion_df['team_cohesion'] = (team_cohesion_df.team_cohesion / max_team_cohesion) * 9.5
 
     game_involvement_df['game_involvement'] = (game_involvement_df.score / 60
                                                 ) + ((game_involvement_df.amount_stolen / game_involvement_df.amount_collected
@@ -322,10 +332,10 @@ def make_plots(df_original, player_name):
                                                     ) + (game_involvement_df.score / 70)
 
 
-    game_involvement_df['game_involvement'] = (game_involvement_df.game_involvement / 32.386109026882906) * 9.5
+    game_involvement_df['game_involvement'] = (game_involvement_df.game_involvement / max_game_inv) * 9.5
     ## radar plot code taken from github example and adapted for personal needs
 
-    from math import pi 
+    # new dataframe created for the metrics
     # Set data
     df_2 = pd.DataFrame({
     'player' : [player_name],
@@ -348,14 +358,13 @@ def make_plots(df_original, player_name):
     })
 
 
-    # initialize the figure
     my_dpi=96
     plt.figure(figsize=(600/my_dpi, 600/my_dpi), dpi=my_dpi)
 
-    # Create a color palette:
+    # color palette
     my_palette = plt.cm.get_cmap('Set2', len(df_2.index))
 
-    # Loop to plot
+    # loop to plot
     for row in range(0, len(df_2.index)):
         make_spider(df = df_2, row=row, title=df_2['player'][row], color=my_palette(row))
     return plt, df_2
@@ -435,7 +444,6 @@ def r_squared(y_true, y_pred):
 def predict_rank(df_original, model, ss, dict_ranks):
     df = df_original.copy()
     
-    # df.dropna(inplace =True)
     to_drop = [
         'shots_against',
         'goals_against',
