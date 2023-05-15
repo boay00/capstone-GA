@@ -8,7 +8,7 @@
 
 ---
 
-![Pro Players Playstyles]('2-cleaning-EDA/code/pros-playstyle.png')
+![Pro Players Playstyles]('pros-playstyle.png')
 
 ---
 
