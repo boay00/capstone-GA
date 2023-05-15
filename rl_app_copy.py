@@ -244,7 +244,7 @@ def analyse_game(user_input, player_name):
             st.markdown(''' 
                 :white_circle: \n
                 :red_circle:''')
-            st.markdown('''
+            st.markdown(''' 
                 1. Oski plays as aggressively as possible often leaving teammates in unfavourable scenarios. Oski's hyper fast playstyle however has generated such a number of opportunities for the team that this tradeoff has produced great results for their team
                 2. Characteristics of this playstyle are: 
                 - high boost consumption
