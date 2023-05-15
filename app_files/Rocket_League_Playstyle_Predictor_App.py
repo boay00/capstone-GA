@@ -210,7 +210,7 @@ def analyse_game(user_input, player_name):
         st.pyplot(radar_plots)
         st.write(df_stats.round(2).rename(columns=lambda x: ' '.join(x.split())
         ) )
-        pros_ps = st.image('2-cleaning-EDA/code/pros-playstyle.png')
+        pros_ps = st.image('../2-cleaning-EDA/code/pros-playstyle.png')
         st.markdown('---')
         st.markdown('### Probabilities')
         col1, col2, col3 = st.columns(3)
