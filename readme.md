@@ -7,7 +7,7 @@
 ## Rocket League - Playstyle / Rank Analysis and Prediction
 
 ---
-<img src="https://github.com/boay00/capstone-GA/blob/master/2-cleaning-EDA/code/pros-playstyle.png" width="300">
+<img src="https://github.com/boay00/capstone-GA/blob/master/2-cleaning-EDA/code/pros-playstyle.png">
 ---
 
 ### Problem Statement
