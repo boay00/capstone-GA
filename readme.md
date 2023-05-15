@@ -8,7 +8,7 @@
 
 ---
 
-![Pro Players Playstyles]('[pros-playstyle.png](https://github.com/boay00/capstone-GA/blob/master/pros-playstyle.png)')
+![Pro Players Playstyles]('https://github.com/boay00/capstone-GA/blob/master/2-cleaning-EDA/code/pros-playstyle.png')
 
 ---
 
