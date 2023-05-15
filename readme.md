@@ -142,7 +142,7 @@ Rank predictions were successful in estimating the approximate rank. The aim was
 ---
 
 ### File Structure
-
+```
 ├── 1-data-collection
 │   ├── code
 │   │    ├── capstone-data-collection.ipynb
@@ -204,4 +204,4 @@ Rank predictions were successful in estimating the approximate rank. The aim was
 │   ├── tf_save_model_3.h5
 ├── executive-summary.md
 ├── readme.md
-
+```
