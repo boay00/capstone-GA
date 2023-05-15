@@ -8,6 +8,9 @@
 
 ---
 
+![Pro Players Playstyles]('2-cleaning-EDA/code/pros-playstyle.png')
+
+---
 ### Problem Statement
 
 
