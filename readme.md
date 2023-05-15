@@ -136,4 +136,70 @@ Rank predictions were successful in estimating the approximate rank. The aim was
 
 - training a model on only high ranked players (diamond and higher), would more accurately place players in their ranks.
     - Because of the barrier to uploading replays to ballchasing.com, only players already experienced are likley to upload replays - therefore the majority of low ranked replays are likely strong players using low ranked accounts to play with friends. This may have negatively impacted the models performance
+    
+---
+
+### File Structure
+
+├── 1-data-collection
+│   ├── code
+│   │    ├── capstone-data-collection.ipynb
+│   │    ├── data-collection-friends.ipynb
+│   │    ├── random_replays.ipynb
+│   ├── data
+│   │    ├── all_replays.csv
+│   │    ├── boay00.csv
+│   │    ├── cho_shmo.csv
+│   │    ├── eden.csv
+│   │    ├── monkeymoon.csv
+│   │    ├── oski.csv
+│   │    ├── vati.csv
+│   │    ├── vinu.csv
+├── 2-cleaning-EDA
+│   ├── code
+│   │    ├── all_players_cleaning.ipynb
+│   │    ├── all-ranks-EDA.ipynb
+│   │    ├── Application-function-test.ipynb
+│   │    ├── max_metrics.pickle
+│   │    ├── pro-EDA.ipynb
+│   │    ├── pros-cleaning.ipynb
+│   │    ├── pros-playstyle.png
+│   ├── data
+│   │    ├── boay_cleaned.csv
+│   │    ├── cho_cleaned.csv
+│   │    ├── cleaned_random_replays.csv
+│   │    ├── eden_cleaned.csv
+│   │    ├── pros.csv
+│   │    ├── vinu_cleaned.csv
+├── 3-modeling-playstyle
+│   ├── code
+│   │    ├── playstyle-classification-model.ipynb
+│   ├── data
+│   │    ├── boay_.csv
+├── 3b-playstyle analysis
+│   ├── code
+│   │    ├── playstyle-analysis-casuals.ipynb
+│   ├── data
+├── 4-rank-predictor
+│   ├── code
+│   │    ├── rank-predictions.ipynb
+│   ├── data
+│   │    ├── boay_for_testing.csv
+├── app_files
+│   ├── ranks
+│   ├── ranks_2
+│   ├── dict_ranks.pkl
+│   ├── et_model_5.pkl
+│   ├── functions_local.py
+│   ├── functions.py
+│   ├── max_metrics.pickle
+│   ├── nn_model_tf_save.h5
+│   ├── poly_ps.pkl
+│   ├── requirements-Copy1.txt
+│   ├── rl_app_copy.py
+│   ├── ss_ps.pkl
+│   ├── ss.pkl
+│   ├── tf_save_model_3.h5
+├── executive-summary.md
+├── readme.md
 
