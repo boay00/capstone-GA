@@ -7,6 +7,7 @@ A mixture of advice is available in order to improve, however one piece of advic
 - M0nkey M00n
 - Oski
 - Vatira
+
 Upon comparing their playstyle with these pro players, the user can then decide which attributes to work on, using the professional players as foundations for improvement.
 
 Furthermore, a regression model can predict the current level of the users gameplay - indicating whether they are performing better or worse than expected, given the available stats. With this information, any mid-high ranked rocket league player will benefit from these key insights into their gameplay.
